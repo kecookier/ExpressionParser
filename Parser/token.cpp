@@ -50,7 +50,7 @@ void TokenOperator::FillRpnVec(TokenVec *rpn_vec, TokenStack *token_stack)
             token_stack->pop();
         }
     }
-    else if (op_ == ':')
+    else if (op_ == ':')    // not push stack
     {
         while (!token_stack->empty()
             && token_stack->top()->GetOp() != '('
@@ -79,51 +79,61 @@ void TokenOperator::CalculateToken(TokenVec *rpn_vec, CalcStack *stack)
 {
     if (op_ == '+')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
+        stack->pop();
+        Element left = stack->top();
         stack->pop();
         stack->push(left + right);
     }
     else if (op_ == '-')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
+        stack->pop();
+        Element left = stack->top();
         stack->pop();
         stack->push(left - right);
     }
     else if (op_ == '*')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
+        stack->pop();
+        Element left = stack->top();
         stack->pop();
         stack->push(left * right);
     }
     else if (op_ == '/')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
+        stack->pop();
+        Element left = stack->top();
         stack->pop();
         stack->push(left / right);
     }
     else if (op_ == '>')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
+        stack->pop();
+        Element left = stack->top();
         stack->pop();
         stack->push(left > right);
     }
     else if (op_ == '<')
     {
-        Element left = stack->top();
-        stack->pop();
         Element right = stack->top();
         stack->pop();
+        Element left = stack->top();
+        stack->pop();
         stack->push(left < right);
+    }
+    else if (op_ == '?')
+    {
+        Element right = stack->top();
+        stack->pop();
+        Element mid = stack->top();
+        stack->pop();
+        Element left = stack->top();
+        stack->pop();
+        stack->push(left.bool_ ? mid : right);
     }
 }
 

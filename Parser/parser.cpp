@@ -9,6 +9,15 @@ Parser::Parser(const std::string &src) : expr_str_(src)
     ASSERT(Init());
 }
 
+Parser::~Parser()
+{
+    for (size_t i = 0; i < infix_vec_.size(); ++i)
+    {
+        delete infix_vec_.at(i);
+        infix_vec_.at(i) = nullptr;
+    }
+}
+
 void Parser::AnalysisToken(TokenVec *infix_vec)
 {
     ASSERT(infix_vec);
@@ -78,9 +87,8 @@ float Parser::CalculateRpn()
 
 bool Parser::Init()
 {
-    TokenVec infix_vec;
-    AnalysisToken(&infix_vec);
-    InfixToRpn(infix_vec, &rpn_vec_);
+    AnalysisToken(&infix_vec_);
+    InfixToRpn(infix_vec_, &rpn_vec_);
     return true;
 }
 

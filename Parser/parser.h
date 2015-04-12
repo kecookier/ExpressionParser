@@ -104,7 +104,7 @@ class Parser
 {
 public:
     Parser(const std::string &src);
-    ~Parser() { }
+    ~Parser();
     void AnalysisToken(TokenVec *infix_vec);
     void InfixToRpn(const TokenVec &infix_vec, TokenVec *rpn_vec);
     float CalculateRpn();
@@ -114,6 +114,7 @@ private:
     void DebugVector(const TokenVec &vec);
 
     std::string expr_str_;
+    TokenVec infix_vec_;
     TokenVec rpn_vec_;
 };
 
@@ -147,11 +148,11 @@ inline Element operator/(Element &left, Element &right)
 
 inline Element operator>(Element &left, Element &right)
 {
-    return Element(left.bool_ > right.bool_);
+    return Element(left.float_ > right.float_);
 }
 
 inline Element operator<(Element &left, Element &right)
 {
-    return Element(left.bool_ < right.bool_);
+    return Element(left.float_ < right.float_);
 }
 #endif // PARSER_H__
